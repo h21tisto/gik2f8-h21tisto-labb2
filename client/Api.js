@@ -3,6 +3,7 @@ class Api{
 
     constructor(url) {
         this.url = url;
+        console.log(url);
     }
 
     create(data) {

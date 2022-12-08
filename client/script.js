@@ -1,3 +1,5 @@
+let editEventListener;
+let taskEdited = false;
 let titleValid = false;
 let dueDateValid = false;
 let descriptionValid = true;
@@ -8,14 +10,26 @@ const description = todoForm.description
 const api = new Api("http://localhost:5000/tasks");
 const todoListElement = document.getElementById('todoList');
 const completedTasksElement = document.getElementById('completedTasks');
+const task = {
+    id: 0,
+    title: title.value,
+    description: '',
+    dueDate: dueDate.value,
+    completed: false
+}
 
-todoForm.addEventListener('submit', onSubmit);
+let submitEventListener = todoForm.addEventListener('submit', (e) => onSubmit(e));
 title.addEventListener('blur', (e) => validateField(e.target));
 title.addEventListener('input', (e) => validateField(e.target));
 dueDate.addEventListener('blur', (e) => validateField(e.target));
 dueDate.addEventListener('input', (e) => validateField(e.target));
 description.addEventListener('blur', (e) => validateField(e.target));
 description.addEventListener('input', (e) => validateField(e.target));
+
+title.value = '';
+description.value = '';
+dueDate.value = '';
+
 
 
 async function checkBox(event) {
@@ -87,10 +101,43 @@ function validateField(field) {
     errorMessage.classList.remove('hidden');
 }
 
+function editTask(e) {
+    var taskDescription;
+    const task = e.parentElement.parentElement.parentElement;
+    const taskTitle = task.children[0].children[1].innerText;
+    const taskDueDate = task.children[0].children[2].children[0].innerText;
+    try { taskDescription = task.children[1].innerText; } catch{ taskDescription = '' };
 
-function onSubmit(e) {
-    e.target.preventDefault();
+    title.value = taskTitle;
+    description.value = taskDescription;
+    dueDate.value = taskDueDate;
+
+    titleValid = true;
+    descriptionValid = true;
+    dueDateValid = true;
+    taskEdited = true;
+
+    try{ removeEventListener(submitEventListener); } catch{};
+    editEventListener = todoForm.addEventListener('submit', (e) => onSubmit(e, taskEdited, task));
+}
+
+function onSubmit(e, taskEdited, task) {
+    e.preventDefault();
+    
+    try{removeEventListener(editEventListener);}catch{};
+    
+    if (taskEdited){
+        api.remove(task.id);
+        taskEdited = false;
+        titleValid = false;
+        descriptionValid = false;
+        dueDateValid = false;
+        //saveTask();
+    }
+
     let validationMessage = '';
+
+    console.log(titleValid);
 
     if (!titleValid){
         validationMessage = "Fältet 'Titel' är obligatoriskt!";
@@ -107,6 +154,7 @@ function onSubmit(e) {
     if (titleValid && descriptionValid && dueDateValid){
         saveTask();
     }
+    
 }
 
 
@@ -124,8 +172,11 @@ function saveTask() {
     description.value = '';
     dueDate.value = '';
 
-    titleValid = false;
-    dueDateValid = false;
+    if (!taskEdited){
+        titleValid = false;
+        dueDateValid = false;
+    }
+    
 }
 
 
@@ -148,6 +199,7 @@ function renderList() {
 }
 
 
+
 function renderTask({id, title, description, dueDate}, completed) {
     let html = ``;
     if (completed){
@@ -168,6 +220,7 @@ function renderTask({id, title, description, dueDate}, completed) {
                         <h3 class="title mb-3 flex-1 text-xl font-bold text-pink-800 uppercase">${title}</h3>
                         <div class="pb-2">
                             <span class="dueDate">${dueDate}</span>
+                            <button onclick="editTask(this)" class="inline-block bg-amber-500 text-xs text-amber-900 border border-white px-3 py-1 rounded-md ml-2">Redigera</button>
                             <button onclick="deleteTask(${id})" class="inline-block bg-amber-500 text-xs text-amber-900 border border-white px-3 py-1 rounded-md ml-2">Ta bort</button>
                         </div>
                     </div>`
