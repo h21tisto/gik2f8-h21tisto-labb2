@@ -89,7 +89,7 @@ function validateField(field) {
 
 
 function onSubmit(e) {
-    e.target.preventDefault();
+    e.preventDefault();
     let validationMessage = '';
 
     if (!titleValid){
