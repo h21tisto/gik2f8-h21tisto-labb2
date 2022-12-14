@@ -9,11 +9,11 @@
     <link rel="shortcut icon" href="#">
 </head>
 <body>
-    <main id="rood" class="pt-24 bg-gradient-to-br from-purple-500 to-yellow-400 min-h-screen">
-        <h1 class="text-center mb-10 text-7xl text-purple-900">To-do lista</h1>
+    <main id="rood" class="pt-24 bg-gradient-to-r from-blue-500 to-purple-700 min-h-screen">
+        <h1 class="text-center mb-10 text-7xl text-white">To-do lista</h1>
         <section class="flex gap-10 w-full xl:w-4/5 mx-2 xl:mx-auto bg-white bg-opacity-75 p-5 rounded-lg">
             <section class="flex-1">
-                <h2 class="mb-6 text-3xl text-orange-900">Lägg till en uppgift</h2>
+                <h2 class="mb-6 text-3xl text-indigo-900">Lägg till en uppgift</h2>
                 <form id="todoForm" name="todoForm">
                     <section class="mb-2">
                         <div class="flex pt-2">
@@ -22,7 +22,7 @@
                                 Error message
                             </p>
                         </div>
-                        <input type="text" name="title" id="title" class="w-full py-1 px-2 rounded-md border-yellow-500 border-2 focus-within:outline-none focus:border-orange-500">
+                        <input type="text" name="title" id="title" class="w-full py-1 px-2 rounded-md border-blue-500 border-2 focus-within:outline-none focus:border-purple-700">
                     </section>
                     <section class="mb-2">
                         <div class="flex pt-2">
@@ -31,7 +31,7 @@
                                 Error message
                             </p>
                         </div>
-                        <textarea maxlength="500" rows="5" id="description" name="description" class="resize-none w-full py-1 px-2 rounded-md border-yellow-500 border-2 focus-within:outline-none focus:border-orange-500"></textarea>
+                        <textarea maxlength="500" rows="5" id="description" name="description" class="resize-none w-full py-1 px-2 rounded-md border-blue-500 border-2 focus-within:outline-none focus:border-purple-700"></textarea>
                     </section>
                     <section class="mb-2">
                         <div class="flex pt-2">
@@ -40,13 +40,13 @@
                                 Error message
                             </p>
                         </div>
-                        <input type="date" name="dueDate" id="dueDate" class="w-full py-1 px-2 rounded-md border-yellow-500 border-2 focus-within:outline-none focus:border-orange-500">
+                        <input type="date" name="dueDate" id="dueDate" class="w-full py-1 px-2 rounded-md border-blue-500 border-2 focus-within:outline-none focus:border-purple-700">
                     </section>
-                    <button onclick="onSubmit(this)" name="submit" type="submit" class="rounded-md bg-yellow-500 hover:bg-yellow-400 px-4 py-1">Spara</button>
+                    <button onclick="onSubmit(this)" name="submit" type="submit" class="rounded-md bg-blue-300 hover:bg-yellow-400 px-4 py-1">Spara</button>
                 </form>
             </section>
             <section class="flex-1 pr-5">
-                <h2 class="mb-6 text-3xl text-orange-900">Alla uppgifter</h2>
+                <h2 class="mb-6 text-3xl text-indigo-900">Alla uppgifter</h2>
                 <ul id="todoList"></ul>
                 <ul id="completedTasks"></ul>
             </section>

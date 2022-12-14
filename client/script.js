@@ -151,24 +151,24 @@ function renderList() {
 function renderTask({id, title, description, dueDate}, completed) {
     let html = ``;
     if (completed){
-        html = `<li id="${id}" class="select-none mt-2 py-2 border-b border-green-300">
+        html = `<li id="${id}" class="select-none mt-2 py-2 border-b border-blue-500">
                     <div class="flex items-center">
                         <input onclick="checkBox(this)" type="checkbox" id="checkbox" name="completed" checked class="checkbox mr-2 mb-2">
-                        <h3 class="w-auto mb-3 flex-1 text-xl font-bold text-green-800 uppercase">${title}</h3>
+                        <h3 class="w-auto mb-3 flex-1 text-xl font-bold text-green-700 uppercase">${title}</h3>
                         <div class="pb-2">
                             <span>${dueDate}</span>
-                            <button onclick="deleteTask(${id})" class="inline-block bg-amber-500 text-xs text-amber-900 border border-white px-3 py-1 rounded-md ml-2">Ta bort</button>
+                            <button onclick="deleteTask(${id})" class="inline-block bg-blue-300 text-xs text-black border border-white px-3 py-1 rounded-md ml-2">Ta bort</button>
                         </div>
                     </div>`
     }
     else {
-        html = `<li id="${id}" class="select-none mt-2 py-2 border-b border-amber-300">
+        html = `<li id="${id}" class="select-none mt-2 py-2 border-b border-blue-500">
                     <div class="flex items-center">
                         <input onclick="checkBox(this)" type="checkbox" id="checkbox" name="completed" class="checkbox mr-2 mb-2">
-                        <h3 class="title mb-3 flex-1 text-xl font-bold text-pink-800 uppercase">${title}</h3>
+                        <h3 class="title mb-3 flex-1 text-xl font-bold text-red-700 uppercase">${title}</h3>
                         <div class="pb-2">
                             <span class="dueDate">${dueDate}</span>
-                            <button onclick="deleteTask(${id})" class="inline-block bg-amber-500 text-xs text-amber-900 border border-white px-3 py-1 rounded-md ml-2">Ta bort</button>
+                            <button onclick="deleteTask(${id})" class="inline-block bg-blue-300 text-xs text-black border border-white px-3 py-1 rounded-md ml-2">Ta bort</button>
                         </div>
                     </div>`
 
