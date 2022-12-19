@@ -25,8 +25,9 @@ async function checkBox(event) {
     const id = parseInt(task.parentElement.id);
     const dueDate = task.children[2].children[0].innerText;
     
-    try { description = task.parentElement.children[1].innerText; } catch{ description = '' };
+    try { description = task.parentElement.children[1].innerText; } catch{ description = '' }; // Om det finns ett description-element, spara den existerande texten till en variabel
 
+    // Skapa ett nytt task-objekt med ett uppdaterat 'completed'-fält 
     let taskData = {
         id: id,
         title: title,
@@ -34,8 +35,8 @@ async function checkBox(event) {
         dueDate: dueDate,
         completed: event.checked
     };
-
-    if (description !== '') taskData.description = description;
+ 
+    if (description !== '') taskData.description = description; // Om en description existerar, sätt description:en till den existerande texten
     
     api.update(taskData).then(() => renderList());
 }
@@ -135,12 +136,15 @@ function renderList() {
         completedTasksElement.innerHTML = '';
 
         if (tasks && tasks.length > 0){
+            // Sorterar tasks baserat på dueDate
             tasks.sort(function(firstTask, secondTask)
-                {return parseInt(firstTask.dueDate.replace(/\-/g, '')) -    //replace.replace(/\-/g, '') tar bort alla '-' från strängen
+                {return parseInt(firstTask.dueDate.replace(/\-/g, '')) -    // replace(/\-/g, '') tar bort alla '-' från strängen
                         parseInt(secondTask.dueDate.replace(/\-/g, ''))}); 
 
+
+            // Lägg till tasken i rätt lista baserat på om den är completed eller inte
             tasks.forEach(task => {
-                if (task.completed) completedTasksElement.insertAdjacentHTML('beforeend', renderTask(task, true));
+                if (task.completed) completedTasksElement.insertAdjacentHTML('beforeend', renderTask(task, true)); 
                 else todoListElement.insertAdjacentHTML('beforeend', renderTask(task, false));
             });
         }
