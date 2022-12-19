@@ -36,7 +36,6 @@ class Api{
     }
 
     async update(data) {
-        //console.log(data);
         const request = new Request(this.url, {
             method: 'PUT',
             headers: {
@@ -45,11 +44,7 @@ class Api{
             body: JSON.stringify(data)
         })
         
-        //var out = fetch(request).then((result) => result.json()).then((data) => data).catch((err) => console.log(err));
-        //var out = {};
         const out = await fetch(request);
-        //var out = fetch(request);
-        //console.log(out);
         return out;
     }
 }

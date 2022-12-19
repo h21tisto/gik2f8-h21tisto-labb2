@@ -17,8 +17,8 @@ app
 
 app.get('/tasks', async(req, res) => {
     try {
-        const tasks = await fs.readFile('./tasks.json');
-        res.send(JSON.parse(tasks))
+        const tasks = await fs.readFile('./tasks.json'); // Läser in data från JSON
+        res.send(JSON.parse(tasks)); // Skickar data till API:t
     }
     catch (error) {
         console.log(error.stack);
@@ -34,13 +34,13 @@ app.post('/tasks', async (req, res) => {
         var maxTaskID = 0;
         
         if (currentTasks && currentTasks.length > 0) {
-            maxTaskID = currentTasks.reduce((maxID, currentElement) => currentElement.id > maxID ? currentElement.id : maxID, maxTaskID);
+            maxTaskID = currentTasks.reduce((maxID, currentElement) => currentElement.id > maxID ? currentElement.id : maxID, maxTaskID); // maxTaskID = högsta ID:t som finns i listan
         }
 
-        const newTask = {id: maxTaskID + 1, ...task};
-        const newList = currentTasks ? [...currentTasks, newTask] : [newTask];
+        const newTask = {id: maxTaskID + 1, ...task}; // Skapa en ny task med ett nytt id + det data som skickas till backend
+        const newList = currentTasks ? [...currentTasks, newTask] : [newTask]; // Om currentTask finns, lägg till nya tasken till den befintliga listan, annars skapas en ny lista
         
-        await fs.writeFile('./tasks.json', JSON.stringify(newList));
+        await fs.writeFile('./tasks.json', JSON.stringify(newList)); // Skriv listan med tasks till JSON-filen
         res.send(newTask);
     }
     catch (error) {
@@ -53,10 +53,10 @@ app.delete('/tasks/:id', async (req, res) => {
         const id = req.params.id;
         var listBuffer = [];
         listBuffer = await fs.readFile('./tasks.json');
-        const currentTasks = JSON.parse(listBuffer);
+        const currentTasks = JSON.parse(listBuffer); // Läs in existerande tasks
 
         if (currentTasks.length > 0){
-            await fs.writeFile('./tasks.json', JSON.stringify(currentTasks.filter(task => task.id != id)));
+            await fs.writeFile('./tasks.json', JSON.stringify(currentTasks.filter(task => task.id != id))); // Ta bort tasken med det angivna id:t och skriv den nya listan till JSON
             res.send({message: `Uppgift med id ${id} togs bort`});
         }
         else {
@@ -70,9 +70,10 @@ app.delete('/tasks/:id', async (req, res) => {
 });
 
 app.put('/tasks', async (req, res) => {
-    //const task = req.body;
     const task = req.body;
     var targetTask = {};
+
+    // Skapa en 'ny' task med data som togs emot (updaterar bara 'completed')
     targetTask = {
         id: task.id,
         title: task.title,
@@ -80,44 +81,22 @@ app.put('/tasks', async (req, res) => {
         dueDate: task.dueDate,
         completed: task.completed
     };
-    //console.log(targetTask);
-    //var listBuffer;
+
     try{
         var listBuffer = [];
         listBuffer = await fs.readFile('./tasks.json');
-        //console.log(listBuffer);
+       
         const currentTasks = JSON.parse(listBuffer);
-        const filteredTasks = currentTasks.filter(task => task.id != targetTask.id);
-        const newList = [...filteredTasks, targetTask]
-        await fs.writeFile('./tasks.json', JSON.stringify(newList));
+        const filteredTasks = currentTasks.filter(task => task.id != targetTask.id); // Ta bort den 'gamla' tasken
+        const newList = [...filteredTasks, targetTask]; // Lägger till den 'nya' tasken
+        await fs.writeFile('./tasks.json', JSON.stringify(newList)); // Skriv listan till JSON
 
-        /* var targetTask = targetTask.filter((targetTask, index, self) =>
-        index === self.findIndex((t) => (t.save === targetTask.save && t.State === targetTask.State))); */
-
-        //console.log(targetTask);
         res.send(targetTask);
     }
     catch (err){
         console.log(err.stack);
     }
     
-    /* try{
-        
-    }
-    catch (err){
-        console.log(err);
-    }
-    
-    
-    try{
-        
-    }
-    catch (err){
-        console.log(err);
-    } */
-    
-    
-    /*  */
 });
 
-app.listen(PORT, console.log('Server running on http://localhost:5000'));
+app.listen(PORT, console.log('Server running on http://localhost:5000')); // Startar servern
